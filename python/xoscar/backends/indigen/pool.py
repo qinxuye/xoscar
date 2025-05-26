@@ -278,14 +278,16 @@ class MainActorPool(MainActorPoolBase):
                     "main_pool_pid": os.getpid(),
                 },
             )
-            process = await create_subprocess_exec(
-                start_python,
-                "-m",
-                "xoscar.backends.indigen",
-                "start_sub_pool",
-                "-sn",
-                shm.name,
-            )
+            with open("/home/xuyeqin/stderr.log", "wb") as errfile:
+                process = await create_subprocess_exec(
+                    start_python,
+                    "-m",
+                    "xoscar.backends.indigen",
+                    "start_sub_pool",
+                    "-sn",
+                    shm.name,
+                    stderr=errfile,  # 写入文件
+                )
 
             def _get_external_addresses():
                 try:
