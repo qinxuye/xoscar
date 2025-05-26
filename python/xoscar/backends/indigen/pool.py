@@ -289,8 +289,8 @@ class MainActorPool(MainActorPoolBase):
                     "-sn",
                     shm.name,
                 ]
-                logger.info(
-                    "Launching subprocess: %s",
+                print(
+                    "Launching subprocess:",
                     " ".join(shlex.quote(arg) for arg in args),
                 )
                 process = await create_subprocess_exec(
