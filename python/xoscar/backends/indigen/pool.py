@@ -285,8 +285,6 @@ class MainActorPool(MainActorPoolBase):
                 "start_sub_pool",
                 "-sn",
                 shm.name,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
             )
 
             def _get_external_addresses():
@@ -318,11 +316,7 @@ class MainActorPool(MainActorPoolBase):
             shm.close()
             shm.unlink()
         if external_addresses is None:
-            stdout, stderr = await process.communicate()
-            raise OSError(
-                f"Start sub pool failed. Return code: {process.returncode}, "
-                f"Stdout: {stdout.decode()}, Stderr: {stderr.decode()}"
-            )
+            raise OSError(f"Start sub pool failed. Return code: {process.returncode}")
         return process, external_addresses
 
     async def append_sub_pool(
