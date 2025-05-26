@@ -279,13 +279,22 @@ class MainActorPool(MainActorPoolBase):
                 },
             )
             with open("/home/xuyeqin/stderr.log", "wb") as errfile:
-                process = await create_subprocess_exec(
+                import shlex
+
+                args = [
                     start_python,
                     "-m",
                     "xoscar.backends.indigen",
                     "start_sub_pool",
                     "-sn",
                     shm.name,
+                ]
+                logger.info(
+                    "Launching subprocess: %s",
+                    " ".join(shlex.quote(arg) for arg in args),
+                )
+                process = await create_subprocess_exec(
+                    *args,
                     stderr=errfile,  # 写入文件
                 )
 
