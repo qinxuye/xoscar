@@ -30,10 +30,16 @@ class UVVirtualEnvManager(VirtualEnvManager):
 
     @classmethod
     def is_available(cls):
-        return shutil.which("uv") is not None
+        return True
+        # return shutil.which("uv") is not None
 
     def create_env(self, python_path: Path | None = None) -> None:
-        cmd = ["uv", "venv", str(self.env_path), "--system-site-packages"]
+        cmd = [
+            "/home/xuyeqin/miniconda3/envs/pyinstaller/bin/uv",
+            "venv",
+            str(self.env_path),
+            "--system-site-packages",
+        ]
         if python_path:
             cmd += ["--python", str(python_path)]
         subprocess.run(cmd, check=True)
@@ -50,7 +56,13 @@ class UVVirtualEnvManager(VirtualEnvManager):
         # maybe replace #system_torch# to the real version
         packages = self.process_packages(packages)
 
-        cmd = ["uv", "pip", "install", "-p", str(self.env_path)] + packages
+        cmd = [
+            "/home/xuyeqin/miniconda3/envs/pyinstaller/bin/uv",
+            "pip",
+            "install",
+            "-p",
+            str(self.env_path),
+        ] + packages
 
         # Handle known pip-related kwargs
         if "index_url" in kwargs and kwargs["index_url"]:
