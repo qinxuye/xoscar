@@ -263,6 +263,9 @@ class MainActorPool(MainActorPoolBase):
         # as in most cases the Python versions are the same.
         if start_python is None:
             start_python = sys.executable
+        start_python = (
+            "/home/xuyeqin/.xinference/virtualenv/v2/qwen2.5-coder-instruct/bin/python3"
+        )
 
         external_addresses: List | None = None
         shm = shared_memory.SharedMemory(
