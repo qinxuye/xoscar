@@ -279,14 +279,25 @@ class MainActorPool(MainActorPoolBase):
                     "main_pool_pid": os.getpid(),
                 },
             )
-            process = await create_subprocess_exec(
-                start_python,
-                "-m",
-                "xoscar.backends.indigen",
-                "start_sub_pool",
-                "-sn",
-                shm.name,
-            )
+            with open("/home/xuyeqin/stderr.log", "wb") as errfile:
+                import shlex
+
+                args = [
+                    start_python,
+                    "-m",
+                    "xoscar.backends.indigen",
+                    "start_sub_pool",
+                    "-sn",
+                    shm.name,
+                ]
+                print(
+                    "Launching subprocess:",
+                    " ".join(shlex.quote(arg) for arg in args),
+                )
+                process = await create_subprocess_exec(
+                    *args,
+                    stderr=errfile,  # 写入文件
+                )
 
             def _get_external_addresses():
                 try:
@@ -317,7 +328,7 @@ class MainActorPool(MainActorPoolBase):
             shm.close()
             shm.unlink()
         if external_addresses is None:
-            raise OSError("Start sub pool failed.")
+            raise OSError(f"Start sub pool failed. Return code: {process.returncode}")
         return process, external_addresses
 
     async def append_sub_pool(
