@@ -48,11 +48,11 @@ class UVVirtualEnvManager(VirtualEnvManager):
         cmd = [uv_path, "venv", str(self.env_path), "--system-site-packages"]
         if python_path:
             cmd += ["--python", str(python_path)]
-        elif _is_in_pyinstaller():
-            # in pyinstaller, uv would find the system python
-            # in this case we'd better specify the same python version
-            python_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
-            cmd += ["--python", python_version]
+        # elif _is_in_pyinstaller():
+        # in pyinstaller, uv would find the system python
+        # in this case we'd better specify the same python version
+        # python_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+        # cmd += ["--python", python_version]
         subprocess.run(cmd, check=True)
 
     def install_packages(self, packages: list[str], **kwargs):
