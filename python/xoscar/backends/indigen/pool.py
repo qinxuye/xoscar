@@ -263,6 +263,7 @@ class MainActorPool(MainActorPoolBase):
         # as in most cases the Python versions are the same.
         if start_python is None:
             start_python = sys.executable
+        print("*" * 20, "start python", start_python)
 
         external_addresses: List | None = None
         shm = shared_memory.SharedMemory(
