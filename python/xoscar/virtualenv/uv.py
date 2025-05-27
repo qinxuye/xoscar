@@ -34,6 +34,7 @@ class UVVirtualEnvManager(VirtualEnvManager):
         # return shutil.which("uv") is not None
 
     def create_env(self, python_path: Path | None = None) -> None:
+        print("*" * 20, shutil.which("uv"))
         cmd = [
             "/home/xuyeqin/miniconda3/envs/pyinstaller/bin/uv",
             "venv",
