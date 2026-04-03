@@ -199,10 +199,12 @@ def test_uv_virtualenv_manager_with_log(caplog):
 
             assert packaging.__version__ == "24.0"
 
-            assert not manager._resolve_install_plan(["packaging"], {})
-            assert manager._resolve_install_plan(["packaging==25.0"], {}) == [
-                "packaging==25.0"
-            ]
+            assert not manager._resolve_install_plan(
+                ["packaging"], {}, index_url="https://pypi.org/simple"
+            )
+            assert manager._resolve_install_plan(
+                ["packaging==25.0"], {}, index_url="https://pypi.org/simple"
+            ) == ["packaging==25.0"]
 
             # Check that logs are indeed captured
             assert any(
